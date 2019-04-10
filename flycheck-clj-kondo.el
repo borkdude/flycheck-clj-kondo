@@ -52,7 +52,7 @@ Argument MODE: the mode in which this checker is activated.
 Argument EXTRA-ARGS: passes extra args to the checker."
   (let ((command
          (append
-          (list "clj-kondo" "--cache" "--lint" "-" "--lang" lang)
+          (list "clj-kondo" "--lint" "-" "--lang" lang)
           extra-args)))
     `(flycheck-define-checker ,name
        "See https://github.com/borkdude/clj-kondo"
@@ -75,7 +75,7 @@ Argument EXTRA-ARGS: passes extra arguments to the checkers."
      (dolist (element '(clj-kondo-clj clj-kondo-cljs clj-kondo-cljc))
        (add-to-list 'flycheck-checkers element))))
 
-(flycheck-clj-kondo-define-checkers)
+(flycheck-clj-kondo-define-checkers "--cache")
 
 (provide 'flycheck-clj-kondo)
 ;;; flycheck-clj-kondo.el ends here
