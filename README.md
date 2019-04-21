@@ -11,7 +11,7 @@ path. For installation instructions, see https://github.com/borkdude/clj-kondo.
 
 ### MELPA
 
-The package will hopefully soon be available on [MELPA](https://melpa.org/#/flycheck-clj-kondo):
+Install from [MELPA](https://melpa.org/#/flycheck-clj-kondo):
 
 ```
 M-x package-install flycheck-clj-kondo
