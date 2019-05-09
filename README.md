@@ -1,5 +1,6 @@
 # flycheck-clj-kondo
 
+[![MELPA Stable](https://stable.melpa.org/packages/flycheck-clj-kondo-badge.svg)](https://stable.melpa.org/#/flycheck-clj-kondo)
 [![MELPA](https://melpa.org/packages/flycheck-clj-kondo-badge.svg)](https://melpa.org/#/flycheck-clj-kondo)
 
 This package integrates [clj-kondo](https://github.com/borkdude/clj-kondo) with Emacs via [flycheck](https://www.flycheck.org).
