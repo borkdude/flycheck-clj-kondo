@@ -34,6 +34,23 @@ Install via [el-get](https://github.com/dimitri/el-get):
   (require 'flycheck-clj-kondo))
 ```
 
+### use-package
+
+Install via [use-package](https://jwiegley.github.io/use-package/):
+
+```emacs-lisp
+;; First install the package:
+(use-package flycheck-clj-kondo
+  :ensure t)
+
+;; then install the checker as soon as `clojure-mode' is loaded
+(use-package clojure-mode
+  :ensure t
+  ...
+  :config
+  (require 'flycheck-clj-kondo))
+```
+
 ## Multiple linters
 
 To set up multiple linters, e.g. in combination with
