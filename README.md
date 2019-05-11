@@ -24,16 +24,6 @@ Then add the following to your init.el:
 (require 'flycheck-clj-kondo)
 ```
 
-### el-get
-
-Install via [el-get](https://github.com/dimitri/el-get):
-
-``` emacs-lisp
-(el-get-bundle flycheck-clj-kondo
-  :url "https://raw.githubusercontent.com/borkdude/flycheck-clj-kondo/master/flycheck-clj-kondo.el"
-  (require 'flycheck-clj-kondo))
-```
-
 ### use-package
 
 Install via [use-package](https://jwiegley.github.io/use-package/):
@@ -46,8 +36,17 @@ Install via [use-package](https://jwiegley.github.io/use-package/):
 ;; then install the checker as soon as `clojure-mode' is loaded
 (use-package clojure-mode
   :ensure t
-  ...
   :config
+  (require 'flycheck-clj-kondo))
+```
+
+### el-get
+
+Install via [el-get](https://github.com/dimitri/el-get):
+
+``` emacs-lisp
+(el-get-bundle flycheck-clj-kondo
+  :url "https://raw.githubusercontent.com/borkdude/flycheck-clj-kondo/master/flycheck-clj-kondo.el"
   (require 'flycheck-clj-kondo))
 ```
 
