@@ -63,7 +63,7 @@ Argument EXTRA-ARGS: passes extra args to the checker."
         (warning line-start "<stdin>:" line ":" column ": " (0+ not-newline) "warning: " (message) line-end)
         (info line-start "<stdin>:" line ":" column ": " (0+ not-newline) "info: " (message) line-end))
        :modes (,mode)
-       :predicate (lambda () (not (string= "edn" (file-name-extension (buffer-file-name))))))))
+       :predicate (lambda () (string= ,lang (file-name-extension (buffer-file-name)))))))
 
 (defmacro flycheck-clj-kondo-define-checkers (&rest extra-args)
   "Defines all clj-kondo checkers.
@@ -72,7 +72,8 @@ Argument EXTRA-ARGS: passes extra arguments to the checkers."
      (flycheck-clj-kondo--define-checker clj-kondo-clj "clj" clojure-mode ,@extra-args)
      (flycheck-clj-kondo--define-checker clj-kondo-cljs "cljs" clojurescript-mode ,@extra-args)
      (flycheck-clj-kondo--define-checker clj-kondo-cljc "cljc" clojurec-mode ,@extra-args)
-     (dolist (element '(clj-kondo-clj clj-kondo-cljs clj-kondo-cljc))
+     (flycheck-clj-kondo--define-checker clj-kondo-edn "edn" clojure-mode ,@extra-args)
+     (dolist (element '(clj-kondo-clj clj-kondo-cljs clj-kondo-cljc clj-kondo-edn))
        (add-to-list 'flycheck-checkers element))))
 
 (flycheck-clj-kondo-define-checkers "--cache")
