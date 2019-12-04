@@ -69,3 +69,16 @@ This ensures that the clj-kondo checkers are the first ones in the `flycheck-che
                     (clj-kondo-edn . edn-joker)))
   (flycheck-add-next-checker (car checkers) (cons 'error (cdr checkers))))
 ```
+
+## Troubleshooting
+
+### clj-kondo is on my PATH but Flycheck still says it's disabled (M-x flycheck-verify-setup)
+
+Check your PATH according to Emacs: `M-x shell`, then `echo $PATH`. If there are any differences between that PATH and the one you are able to run clj-kondo from (e.g., your PATH according to Terminal on macOS), add them by including them in your Emacs config. For example, if you needed to include `/usr/local/bin`, you could add to init.el:
+
+```emacs-lisp
+(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
+(setq exec-path (append exec-path '("/usr/local/bin")))
+```
+
+Then, restart Emacs.
