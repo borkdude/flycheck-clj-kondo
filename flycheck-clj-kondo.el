@@ -63,7 +63,17 @@ Argument EXTRA-ARGS: passes extra args to the checker."
         (warning line-start "<stdin>:" line ":" column ": " (0+ not-newline) "warning: " (message) line-end)
         (info line-start "<stdin>:" line ":" column ": " (0+ not-newline) "info: " (message) line-end))
        :modes (,mode)
-       :predicate (lambda () (string= ,lang (file-name-extension (buffer-file-name)))))))
+       :predicate (lambda ()
+                    (let ((buffer-file-name (buffer-file-name)))
+                      (if buffer-file-name
+                          ;; If there is an associated file with buffer, use file name extension
+                          ;; to infer which language to turn on.
+                          (string= ,lang (file-name-extension buffer-file-name))
+                        ;; Else use the mode to infer which language to turn on.
+                        ,(pcase lang
+                           ("clj" `(equal 'clojure-mode major-mode))
+                           ("cljs" `(equal 'clojurescript-mode major-mode))
+                           ("cljc" `(equal 'clojurec-mode major-mode)))))))))
 
 (defmacro flycheck-clj-kondo-define-checkers (&rest extra-args)
   "Defines all clj-kondo checkers.
