@@ -43,6 +43,11 @@
 ;;; Code:
 (require 'flycheck)
 
+(defvar-local flycheck-clj-kondo-lang
+  nil
+  "Buffer local variable to override the language used to lint the buffer with clj-kondo. Useful if
+  your file extension doesn't match your major-mode.")
+
 (defmacro flycheck-clj-kondo--define-checker
     (name lang mode &rest extra-args)
   "Internal macro to define checker.
@@ -50,29 +55,32 @@ Argument NAME: the name of the checker.
 Argument LANG: language string.
 Argument MODE: the mode in which this checker is activated.
 Argument EXTRA-ARGS: passes extra args to the checker."
-  (let ((command
-         (append
-          (list "clj-kondo" "--lint" "-" "--lang" lang)
-          extra-args)))
-    `(flycheck-define-checker ,name
-       "See https://github.com/borkdude/clj-kondo"
-       :command ,command
-       :standard-input t
-       :error-patterns
-       ((error line-start "<stdin>:" line ":" column ": " (0+ not-newline) (or "error: " "Exception: ") (message) line-end)
-        (warning line-start "<stdin>:" line ":" column ": " (0+ not-newline) "warning: " (message) line-end)
-        (info line-start "<stdin>:" line ":" column ": " (0+ not-newline) "info: " (message) line-end))
-       :modes (,mode)
-       :predicate (lambda ()
-                    (if buffer-file-name
-                        ;; If there is an associated file with buffer, use file name extension
-                        ;; to infer which language to turn on.
-                        (string= ,lang (file-name-extension buffer-file-name))
-                      ;; Else use the mode to infer which language to turn on.
-                      ,(pcase lang
-                         ("clj" `(equal 'clojure-mode major-mode))
-                         ("cljs" `(equal 'clojurescript-mode major-mode))
-                         ("cljc" `(equal 'clojurec-mode major-mode))))))))
+  `(flycheck-define-checker ,name
+     "See https://github.com/borkdude/clj-kondo"
+     :command ("clj-kondo"
+               "--lint" "-"
+               "--lang" (eval (or flycheck-clj-kondo-lang ,lang))
+               ,@extra-args)
+     :standard-input t
+     :error-patterns
+     ((error line-start "<stdin>:" line ":" column ": " (0+ not-newline) (or "error: " "Exception: ") (message) line-end)
+      (warning line-start "<stdin>:" line ":" column ": " (0+ not-newline) "warning: " (message) line-end)
+      (info line-start "<stdin>:" line ":" column ": " (0+ not-newline) "info: " (message) line-end))
+     :modes (,mode)
+     :predicate (lambda ()
+                  (or
+                   ;; We are being told to explicitly lint
+                   flycheck-clj-kondo-lang
+                   ;; If there is an associated file with buffer, use file name extension
+                   ;; to infer which language to turn on.
+                   (and buffer-file-name
+                        (string= ,lang (file-name-extension buffer-file-name)))
+
+                   ;; Else use the mode to infer which language to turn on.
+                   (pcase ,lang
+                     ("clj" `(equal 'clojure-mode major-mode))
+                     ("cljs" `(equal 'clojurescript-mode major-mode))
+                     ("cljc" `(equal 'clojurec-mode major-mode)))))))
 
 (defmacro flycheck-clj-kondo-define-checkers (&rest extra-args)
   "Defines all clj-kondo checkers.
