@@ -72,7 +72,11 @@ Argument EXTRA-ARGS: passes extra args to the checker."
                       ,(pcase lang
                          ("clj" `(equal 'clojure-mode major-mode))
                          ("cljs" `(equal 'clojurescript-mode major-mode))
-                         ("cljc" `(equal 'clojurec-mode major-mode))))))))
+                         ("cljc" `(equal 'clojurec-mode major-mode)))))
+       :working-directory (lambda (x)
+                            (if buffer-file-name
+                                (file-name-directory buffer-file-name)
+                              default-directory)))))
 
 (defmacro flycheck-clj-kondo-define-checkers (&rest extra-args)
   "Defines all clj-kondo checkers.
