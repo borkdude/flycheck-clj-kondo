@@ -60,12 +60,16 @@ Argument EXTRA-ARGS: passes extra args to the checker."
      :command ("clj-kondo"
                "--lint" "-"
                "--lang" (eval (or flycheck-clj-kondo-lang ,lang))
+               "--filename" (eval (buffer-file-name))
                ,@extra-args)
      :standard-input t
      :error-patterns
-     ((error line-start "<stdin>:" line ":" column ": " (0+ not-newline) (or "error: " "Exception: ") (message) line-end)
-      (warning line-start "<stdin>:" line ":" column ": " (0+ not-newline) "warning: " (message) line-end)
-      (info line-start "<stdin>:" line ":" column ": " (0+ not-newline) "info: " (message) line-end))
+     ((error line-start (or "<stdin>" (file-name))
+             ":" line ":" column ": " (0+ not-newline) (or "error: " "Exception: ") (message) line-end)
+      (warning line-start (or "<stdin>" (file-name))
+               ":" line ":" column ": " (0+ not-newline) "warning: " (message) line-end)
+      (info line-start (or "<stdin>" (file-name))
+            ":" line ":" column ": " (0+ not-newline) "info: " (message) line-end))
      :modes (,mode)
      :predicate (lambda ()
                   (or
