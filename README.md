@@ -70,6 +70,11 @@ This ensures that the clj-kondo checkers are the first ones in the `flycheck-che
   (flycheck-add-next-checker (car checkers) (cons 'error (cdr checkers))))
 ```
 
+## Testing
+
+Make sure [Eldev](https://github.com/doublep/eldev) is installed and
+run `eldev test` for testing, `eldev lint` for linting.
+
 ## Troubleshooting
 
 ### clj-kondo is on my PATH but Flycheck still says it's disabled (M-x flycheck-verify-setup)

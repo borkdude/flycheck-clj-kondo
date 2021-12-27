@@ -8,7 +8,7 @@
 ;; Created: 3 April 2019
 ;; Version: 2019.04.03
 ;; Homepage: https://github.com/borkdude/flycheck-clj-kondo
-;; Package-Requires: ((flycheck "0.18"))
+;; Package-Requires: ((emacs "24.3") (flycheck "0.18"))
 
 ;;; Commentary:
 
