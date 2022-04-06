@@ -70,6 +70,10 @@ This ensures that the clj-kondo checkers are the first ones in the `flycheck-che
   (flycheck-add-next-checker (car checkers) (cons 'error (cdr checkers))))
 ```
 
+## Project Setup
+
+To lint across namespaces in a project, clj-condo needs a directory to store cached data. Create a `.clj-kondo` directory and lint the entire classpath from the [command line](https://github.com/clj-kondo/clj-kondo#project-setup).
+
 ## Testing
 
 Make sure [Eldev](https://github.com/doublep/eldev) is installed and
