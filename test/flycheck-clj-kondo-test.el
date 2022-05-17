@@ -39,6 +39,8 @@
 (flycheck-ert-def-checker-test clj-kondo-cljs cljs basic
   (flycheck-ert-should-syntax-check
    "test/corpus/basic.cljs" 'clojurescript-mode
+   '(3 5 error "Namespace name does not match file name: cond-without-else1"
+       :checker clj-kondo-cljs)
    '(11 3 warning "use :else as the catch-all test expression in cond"
         :checker clj-kondo-cljs)
    '(18 3 warning "use :else as the catch-all test expression in cond"
