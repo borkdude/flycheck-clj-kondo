@@ -9,13 +9,11 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest]
-        emacs_version: ['27.2', 'snapshot']
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        emacs_version: ['27.2', '28.1']
         include:
-          - os: macos-latest
-            emacs_version: '27.2'
-          - os: windows-latest
-            emacs_version: '27.2'
+          - os: ubuntu-latest
+            emacs_version: 'snapshot'
 
     steps:
     - name: Set up Emacs
@@ -46,10 +44,7 @@ jobs:
     - name: Install Eldev on MS-Windows
       if: startsWith (matrix.os, 'windows')
       run: |
-        $env:ELDEV_BIN_DIR="$HOME\.eldev\bin"
-        if (!(Test-Path $env:ELDEV_BIN_DIR)) {new-item "$env:ELDEV_BIN_DIR" -ItemType directory}
-        iwr -Uri https://raw.githubusercontent.com/doublep/eldev/master/bin/eldev.bat -outfile $env:ELDEV_BIN_DIR/eldev.bat
-        (Resolve-Path $env:ELDEV_BIN_DIR).Path >> $Env:GITHUB_PATH
+        curl.exe -fsSL https://raw.github.com/doublep/eldev/master/webinstall/github-eldev.bat | cmd /Q
 
     - name: Install clj-kondo
       if: "!startsWith (matrix.os, 'windows')"
@@ -61,7 +56,8 @@ jobs:
     - name: install clj-kondo on MS-Windows
       if: startsWith (matrix.os, 'windows')
       run: |
-        Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+        iwr get.scoop.sh -outfile 'install.ps1'
+        .\install.ps1 -RunAsAdmin
         scoop bucket add extras
         scoop bucket add scoop-clojure https://github.com/littleli/scoop-clojure
         scoop install clj-kondo
