@@ -8,7 +8,7 @@
 ;; Created: 3 April 2019
 ;; Version: 2019.04.03
 ;; Homepage: https://github.com/borkdude/flycheck-clj-kondo
-;; Package-Requires: ((flycheck "0.18"))
+;; Package-Requires: ((emacs "24.3") (flycheck "0.18"))
 
 ;;; Commentary:
 
@@ -42,6 +42,10 @@
 
 ;;; Code:
 (require 'flycheck)
+
+;; force UTF-8 encoding for data sent and received to the clj-kondo
+;; sub-process.
+(add-to-list 'process-coding-system-alist '("clj-kondo" . utf-8))
 
 (defvar-local flycheck-clj-kondo-lang
   nil
