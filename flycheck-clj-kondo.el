@@ -101,3 +101,5 @@ Argument EXTRA-ARGS: passes extra arguments to the checkers."
 
 (provide 'flycheck-clj-kondo)
 ;;; flycheck-clj-kondo.el ends here
+
+;;;; comment to trigger CI
