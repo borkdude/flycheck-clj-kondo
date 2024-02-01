@@ -53,7 +53,7 @@
   your file extension doesn't match your major-mode.")
 
 (defmacro flycheck-clj-kondo--define-checker
-    (name lang mode &rest extra-args)
+    (name lang modes &rest extra-args)
   "Internal macro to define checker.
 Argument NAME: the name of the checker.
 Argument LANG: language string.
@@ -74,7 +74,7 @@ Argument EXTRA-ARGS: passes extra args to the checker."
                ":" line ":" column ": " (0+ not-newline) "warning: " (message) line-end)
       (info line-start (or "<stdin>" (file-name))
             ":" line ":" column ": " (0+ not-newline) "info: " (message) line-end))
-     :modes (,mode)
+     :modes ,modes
      :predicate (lambda ()
                   (or
                    ;; We are being told to explicitly lint
@@ -86,18 +86,20 @@ Argument EXTRA-ARGS: passes extra args to the checker."
 
                    ;; Else use the mode to infer which language to turn on.
                    (pcase ,lang
-                     ("clj" `(equal 'clojure-mode major-mode))
-                     ("cljs" `(equal 'clojurescript-mode major-mode))
-                     ("cljc" `(equal 'clojurec-mode major-mode)))))))
+                     ("clj"  `(member major-mode ,,modes))
+                     ("cljs" `(member major-mode ,,modes))
+                     ("cljc" `(member major-mode ,,modes)))))))
+
+;; (macroexpand-1 '(flycheck-clj-kondo--define-checker clj-kondo-clj "clj" clojure-mode "--cache"))
 
 (defmacro flycheck-clj-kondo-define-checkers (&rest extra-args)
   "Defines all clj-kondo checkers.
 Argument EXTRA-ARGS: passes extra arguments to the checkers."
   `(progn
-     (flycheck-clj-kondo--define-checker clj-kondo-clj "clj" clojure-mode ,@extra-args)
-     (flycheck-clj-kondo--define-checker clj-kondo-cljs "cljs" clojurescript-mode ,@extra-args)
-     (flycheck-clj-kondo--define-checker clj-kondo-cljc "cljc" clojurec-mode ,@extra-args)
-     (flycheck-clj-kondo--define-checker clj-kondo-edn "edn" clojure-mode ,@extra-args)
+     (flycheck-clj-kondo--define-checker clj-kondo-clj "clj" (clojure-mode clojure-ts-mode) ,@extra-args)
+     (flycheck-clj-kondo--define-checker clj-kondo-cljs "cljs" (clojurescript-mode clojurescritps-ts-mode) ,@extra-args)
+     (flycheck-clj-kondo--define-checker clj-kondo-cljc "cljc" (clojurec-mode clojurec-ts-mode) ,@extra-args)
+     (flycheck-clj-kondo--define-checker clj-kondo-edn "edn" (clojure-mode clojure-ts-mode) ,@extra-args)
      (dolist (element '(clj-kondo-clj clj-kondo-cljs clj-kondo-cljc clj-kondo-edn))
        (add-to-list 'flycheck-checkers element))))
 
