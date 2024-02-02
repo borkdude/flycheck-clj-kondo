@@ -57,7 +57,7 @@
   "Internal macro to define checker.
 Argument NAME: the name of the checker.
 Argument LANG: language string.
-Argument MODE: the mode in which this checker is activated.
+Argument MODES: a major mode symbol or a list thereof in which this checker is activated.
 Argument EXTRA-ARGS: passes extra args to the checker."
   `(flycheck-define-checker ,name
      "See https://github.com/borkdude/clj-kondo"
@@ -86,9 +86,9 @@ Argument EXTRA-ARGS: passes extra args to the checker."
 
                    ;; Else use the mode to infer which language to turn on.
                    (pcase ,lang
-                     ("clj"  `(member major-mode ,,modes))
-                     ("cljs" `(member major-mode ,,modes))
-                     ("cljc" `(member major-mode ,,modes)))))))
+                     ("clj"  (member major-mode '(clojure-mode clojure-ts-mode)))
+                     ("cljs" (member major-mode '(clojurescript-mode clojurescritps-ts-mode)))
+                     ("cljc" (member major-mode '(clojurec-mode clojurec-ts-mode))))))))
 
 ;; (macroexpand-1 '(flycheck-clj-kondo--define-checker clj-kondo-clj "clj" clojure-mode "--cache"))
 
