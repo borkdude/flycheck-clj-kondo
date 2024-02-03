@@ -97,7 +97,7 @@ Argument EXTRA-ARGS: passes extra args to the checker."
 Argument EXTRA-ARGS: passes extra arguments to the checkers."
   `(progn
      (flycheck-clj-kondo--define-checker clj-kondo-clj "clj" (clojure-mode clojure-ts-mode) ,@extra-args)
-     (flycheck-clj-kondo--define-checker clj-kondo-cljs "cljs" (clojurescript-mode clojurescritps-ts-mode) ,@extra-args)
+     (flycheck-clj-kondo--define-checker clj-kondo-cljs "cljs" (clojurescript-mode clojurescript-ts-mode) ,@extra-args)
      (flycheck-clj-kondo--define-checker clj-kondo-cljc "cljc" (clojurec-mode clojurec-ts-mode) ,@extra-args)
      (flycheck-clj-kondo--define-checker clj-kondo-edn "edn" (clojure-mode clojure-ts-mode) ,@extra-args)
      (dolist (element '(clj-kondo-clj clj-kondo-cljs clj-kondo-cljc clj-kondo-edn))
