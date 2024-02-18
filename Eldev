@@ -3,4 +3,4 @@
 ;; Autodetermined by `eldev init'.
 (eldev-use-package-archive 'melpa)
 
-(eldev-add-extra-dependencies 'test 'clojure-mode)
+(eldev-add-extra-dependencies 'test 'clojure-mode 'clojure-ts-mode)
