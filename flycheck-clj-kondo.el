@@ -87,8 +87,8 @@ Argument EXTRA-ARGS: passes extra args to the checker."
                    ;; Else use the mode to infer which language to turn on.
                    (pcase ,lang
                      ("clj"  (member major-mode '(clojure-mode clojure-ts-mode)))
-                     ("cljs" (member major-mode '(clojurescript-mode clojurescritps-ts-mode)))
-                     ("cljc" (member major-mode '(clojurec-mode clojurec-ts-mode))))))))
+                     ("cljs" (member major-mode '(clojurescript-mode clojure-ts-clojurescript-mode)))
+                     ("cljc" (member major-mode '(clojurec-mode clojure-ts-clojurec-mode))))))))
 
 ;; (macroexpand-1 '(flycheck-clj-kondo--define-checker clj-kondo-clj "clj" clojure-mode "--cache"))
 
@@ -97,8 +97,8 @@ Argument EXTRA-ARGS: passes extra args to the checker."
 Argument EXTRA-ARGS: passes extra arguments to the checkers."
   `(progn
      (flycheck-clj-kondo--define-checker clj-kondo-clj "clj" (clojure-mode clojure-ts-mode) ,@extra-args)
-     (flycheck-clj-kondo--define-checker clj-kondo-cljs "cljs" (clojurescript-mode clojurescript-ts-mode) ,@extra-args)
-     (flycheck-clj-kondo--define-checker clj-kondo-cljc "cljc" (clojurec-mode clojurec-ts-mode) ,@extra-args)
+     (flycheck-clj-kondo--define-checker clj-kondo-cljs "cljs" (clojurescript-mode clojure-ts-clojurescript-mode) ,@extra-args)
+     (flycheck-clj-kondo--define-checker clj-kondo-cljc "cljc" (clojurec-mode clojure-ts-clojurec-mode) ,@extra-args)
      (flycheck-clj-kondo--define-checker clj-kondo-edn "edn" (clojure-mode clojure-ts-mode) ,@extra-args)
      (dolist (element '(clj-kondo-clj clj-kondo-cljs clj-kondo-cljc clj-kondo-edn))
        (add-to-list 'flycheck-checkers element))))
