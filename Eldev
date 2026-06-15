@@ -2,13 +2,16 @@
 
 (eldev-require-version "1.11.2")
 
-(eldev-use-package-archive 'gnu-elpa)
-(eldev-use-package-archive 'nongnu-elpa)
+(eldev-use-package-archive 'gnu-elpa)   ;; Needed for installing seq.el-2.24
 (eldev-use-package-archive 'melpa)
 
 (eldev-add-extra-dependencies 'test 'clojure-mode 'buttercup)
 
 (setq byte-compile-docstring-max-column 120)
+
+;; Windows CI lacks a valid GPG keyring for ELPA signatures
+(when (eq system-type 'windows-nt)
+  (setq package-check-signature nil))
 
 (when (version<=  "29.1" emacs-version)
   (eldev-add-extra-dependencies 'test 'clojure-ts-mode))
