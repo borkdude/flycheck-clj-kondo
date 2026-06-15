@@ -1,0 +1,17 @@
+{:tasks
+ {clean {:doc "Clean build artifacts"
+         :task (shell "eldev clean")}
+  compile {:doc "Check for byte-compilation warnings"
+           :depends [clean]
+           :task (shell "eldev -dtT compile --warnings-as-errors")}
+  lint {:doc "Run linter"
+        :depends [clean]
+        :task (shell "eldev lint -c")}
+  test {:doc "Run tests"
+        :depends [clean]
+        :task (shell "eldev -dtT -p test")}
+  all {:doc "Run clean, compile, lint, and test"
+       :task (do
+               (run 'compile)
+               (run 'lint)
+               (run 'test))}}}
