@@ -6,7 +6,7 @@
 (eldev-use-package-archive 'nongnu-elpa)
 (eldev-use-package-archive 'melpa)
 
-(eldev-add-extra-dependencies 'test 'clojure-mode)
+(eldev-add-extra-dependencies 'test 'clojure-mode 'buttercup)
 
 (setq byte-compile-docstring-max-column 120)
 
