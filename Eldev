@@ -1,9 +1,16 @@
 ; -*- mode: emacs-lisp; lexical-binding: t -*-
 
-;; Autodetermined by `eldev init'.
+(eldev-require-version "1.11.2")
+
+(eldev-use-package-archive 'gnu-elpa)
+(eldev-use-package-archive 'nongnu-elpa)
 (eldev-use-package-archive 'melpa)
 
 (eldev-add-extra-dependencies 'test 'clojure-mode)
 
+(setq byte-compile-docstring-max-column 120)
+
 (when (version<=  "29.1" emacs-version)
   (eldev-add-extra-dependencies 'test 'clojure-ts-mode))
+
+(setq eldev-project-main-file "flycheck-clj-kondo.el")

@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (require 'flycheck-clj-kondo)
 (require 'flycheck-ert)
 

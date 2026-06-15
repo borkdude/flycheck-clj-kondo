@@ -77,7 +77,7 @@ To lint across namespaces in a project, clj-condo needs a directory to store cac
 ## Testing
 
 Make sure [Eldev](https://github.com/doublep/eldev) is installed and
-run `eldev test` for testing, `eldev lint` for linting.
+run `make test` for testing, `make lint` for linting.
 
 ## Troubleshooting
 

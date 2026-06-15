@@ -1,14 +1,14 @@
-;;; flycheck-clj-kondo.el --- Add clj-kondo linter to flycheck
+;;; flycheck-clj-kondo.el --- Add clj-kondo linter to flycheck  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2019 Michiel Borkent <michielborkent@gmail.com>
+;; Copyright (C) 2019-2026 Michiel Borkent <michielborkent@gmail.com>
 ;; This code borrows heavily from flycheck-joker:
 ;; https://github.com/candid82/flycheck-joker
 ;;
 ;; Author: Michiel Borkent <michielborkent@gmail.com>
 ;; Created: 3 April 2019
-;; Version: 0.0.4-snapshot
+;; Version: 0.0.4
 ;; Homepage: https://github.com/borkdude/flycheck-clj-kondo
-;; Package-Requires: ((emacs "26.1") (flycheck "34"))
+;; Package-Requires: ((emacs "27.1") (flycheck "36"))
 
 ;;; Commentary:
 
@@ -43,14 +43,13 @@
 ;;; Code:
 (require 'flycheck)
 
-;; force UTF-8 encoding for data sent and received to the clj-kondo
-;; sub-process.
+;; force UTF-8 encoding for data sent and received to the clj-kondo sub-process.
 (add-to-list 'process-coding-system-alist '("clj-kondo" . utf-8))
 
 (defvar-local flycheck-clj-kondo-lang
   nil
-  "Buffer local variable to override the language used to lint the buffer with clj-kondo. Useful if
-  your file extension doesn't match your major-mode.")
+  "Buffer local variable to override the language used to lint the buffer with clj-kondo.
+Useful if your file extension doesn't match your major-mode.")
 
 (defmacro flycheck-clj-kondo--define-checker
     (name lang modes &rest extra-args)
